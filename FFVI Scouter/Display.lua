@@ -89,6 +89,7 @@ end
 function UpdateItemDisplay(itemID)
     --console.log("ItemID to Display: " .. itemID)
     ClearDisplay()
+    if (itemID == 0xFF) then return end
 
     SetItemDataLine("Item Name:", GetItemName(itemID))
     local itemType = GetItemType(itemID, true)
