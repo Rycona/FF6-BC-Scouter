@@ -1,9 +1,11 @@
 # FF6 BC Scouter
 
 Version:    0.1?
+
 Date:       2020-12-21
 
 Beyond Chaos Randomizer URL:    https://github.com/subtractionsoup/beyondchaos/releases/latest
+
 Beyond Chaos Discord:           https://discord.gg/S3G3UXy
 
 TO INTRODUCE
