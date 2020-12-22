@@ -10,15 +10,13 @@ Beyond Chaos Discord:           https://discord.gg/S3G3UXy
 
 TO INTRODUCE
 -------------
-This repository holds a set of Lua scripts to aid in playing Beyond Chaos, a FF6 randomizer. My goal with this is primarly to
-cut down on what I consider metagaming, the tracking of the variance of known variables during playthroughs which pulls me out
-of the game and reduces my flow and enjoyment. This is to aid that hopefully, and I thought I may as well share it with others.
+This repository holds a set of Lua scripts to aid in playing Beyond Chaos, a FF6 randomizer. This code will make a separate
+window that will display highlighted equipment information while on the Equip and Relic Menus that is normally only displayed
+in the Item Menu after selecting an item. Ideally, this will ease changing and viewing equipment.
 
 TO USE
 -----------------------------------------
-Keep all the scripts in the same folder. Only the 'FF6BC Scouter.lua' file needs to be run. A separate window will pop up when
-the script is run and will display equipment information on the Equip and Relic menus that is normally only displayed in the
-item menu after selecting an item. Ideally, this will make changing equipment less arduous.
+Keep all the scripts in the same folder. Only run the 'FF6BC Scouter.lua' file.
 
 I've only tested this with the BizHawk-2.5.2 Emulator with the BSNES core. I don't know if different cores will affect
 anything. I'm assuming there are no guarantees this will work on another emulator as I do use some of the BizHawk Lua functions
@@ -40,7 +38,7 @@ TO DO
 
 TO FIX
 ------------------------------------------
-- The display flickers during battle, and possibly elsewhere (but it shouldn't affect anything)
+- The window may flicker with text during battle, and possibly elsewhere (but it shouldn't affect anything)
 
 TO CONTACT
 ------------------------------------------
