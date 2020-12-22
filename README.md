@@ -1,6 +1,6 @@
 # FF6 BC Scouter
 
-Version:    0.1?
+Version:    0.1b?
 
 Date:       2020-12-21
 
