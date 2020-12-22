@@ -3,6 +3,8 @@ A set of Lua scripts to aid in playing Beyond Chaos, a FF6 randomizer. My goal w
 
 A separate window will pop up when the script is run and should be blank other than when the cursor is over equipment in the Item, Equip, and Relic Menus. It's a bit of a mess still, but I wanted to get this out to get feedback and more ideas.
 
+I've only tested this with the BizHawk-2.5.2 Emulator with the BSNES core. I don't know if different cores will affect anything. I'm assuming there are no guarantees this will work on another emulator as I do use some of the BizHawk Lua functions and I'd have to code around that for SNES9x or another emulator that runs Lua Scripts. I'm not certain of this, feel free to correct me if I'm wrong.
+
 A few other things I'd like to add:
 -------------------------------------------
 - Decent Graphics/Layout for nicer look and increased readability
