@@ -1,6 +1,6 @@
 # FF6 BC Scouter
 
-Version:    0.1 ?
+Version:    0.1?
 Date:       2020-12-21
 
 Beyond Chaos Randomizer URL:    https://github.com/subtractionsoup/beyondchaos/releases/latest
@@ -8,7 +8,7 @@ Beyond Chaos Discord:           https://discord.gg/S3G3UXy
 
 TO INTRODUCE
 -------------
-this repository holds a set of Lua scripts to aid in playing Beyond Chaos, a FF6 randomizer. My goal with this is primarly to
+This repository holds a set of Lua scripts to aid in playing Beyond Chaos, a FF6 randomizer. My goal with this is primarly to
 cut down on what I consider metagaming, the tracking of the variance of known variables during playthroughs which pulls me out
 of the game and reduces my flow and enjoyment. This is to aid that hopefully, and I thought I may as well share it with others.
 
