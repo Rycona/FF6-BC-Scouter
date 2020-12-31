@@ -1,8 +1,8 @@
 # FF6 BC Scouter
 
-Version:    0.1b?
+Version:    0.1b?  |  Date:       2020-12-21
 
-Date:       2020-12-21
+FF6 BC Scouter: https://github.com/Rycona/FF6-BC-Scouter
 
 Beyond Chaos Randomizer URL:    https://github.com/subtractionsoup/beyondchaos/releases/latest
 
@@ -16,12 +16,11 @@ in the Item Menu after selecting an item. Ideally, this will ease changing and v
 
 TO USE
 -----------------------------------------
-Keep all the scripts in the same folder. Only run the 'FF6BC Scouter.lua' file.
+- Use with the BizHawk SNES Emulator (Tested with BizHawk v2.5.2)
+- Keep all scripts together in the same folder
+- Load only 'FF6BC Scouter.lua' from the folder
 
-I've only tested this with the BizHawk-2.5.2 Emulator with the BSNES core. I don't know if different cores will affect
-anything. I'm assuming there are no guarantees this will work on another emulator as I do use some of the BizHawk Lua functions
-and I imagine I'd have to code around that for SNES9x or another emulator that runs Lua Scripts. I'm not certain of this, feel
-free to correct me if I'm wrong.
+NOTE: Does not work with other emulators that support Lua scripts due to use of BizHawk-specific Lua Functions
 
 TO DO
 -------------------------------------------
@@ -44,4 +43,4 @@ TO FIX
 
 TO CONTACT
 ------------------------------------------
-If you want to contact me, message me on Discord. All critcism, feedback, and salty limericks welcome.
+Post any problems or suggestions you have in the Issues section of GitHub. All constructive critcism, feedback, and salty limericks welcome.
