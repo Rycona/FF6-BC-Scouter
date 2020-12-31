@@ -25,6 +25,7 @@ free to correct me if I'm wrong.
 
 TO DO
 -------------------------------------------
+- A couple of effects are NOT displayed: 1/2 enc, No enc, and maybe some others
 - Decent Graphics/Layout for nicer look and increased readability
 - Option for Less "Adaptive" Layout, so Item Characteristics are always in the same part of the window
 - Option for "More Adaptive" Layout, i.e, being able to resize the window.
@@ -35,6 +36,7 @@ TO DO
 - Access the aforementioned information while in battle
 - Access item information from shop sell menu
 - Stat and Command overview for all party members from main manu
+- Pop up with info about when picking up treasures or getting enemy drops/steals/morphs
 
 TO FIX
 ------------------------------------------
