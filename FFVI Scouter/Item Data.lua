@@ -64,7 +64,7 @@ function GetItemName(itemID)
 
 	require 'Utils'
 	for i=1, 13, 1 do
-		string = string .. HexToChar(memory.read_u8(address + (i - 1)))
+		string = string .. HexToChar(memory.read_u8(address + (i - 1), "CARTROM"))
 	end
 
 	return string
@@ -154,21 +154,39 @@ function GetItemSpellLearned(itemID, rawValues)
 	return spellName .. " x " .. spellRate
 end
 
+function GetItemFieldEffects(itemID, rawValue)
+	local rawValue = rawValue or false
+
+	local value = GetItemDataValue(itemID, 0x05)
+
+	if rawValue then return value end
+
+	require 'Constants'
+	local strings = {}
+	for i=1, 8, 1 do
+		if bit.check(value, (i - 1)) then
+			strings[#strings + 1] = itemFieldEffectsList[i]
+		end
+	end
+	
+	return strings
+end
+
 function GetItemProcSpell(itemID, rawValue)
 	local rawValues = rawValues or false
     
 	local value = GetItemDataValue(itemID, 0x12)
-	--console.log("Spell value: " .. bizstring.hex(value))
 
 	if rawValues then return value end
 
+	--console.log("Proc Value: " .. bizstring.hex(value))
 	require 'Spell Data'
-	if value <= 0x36 then
+	if value < 0x36 then
 		return GetSpellName(value)
-	elseif value <= 0x51 then
+	elseif value < 0x51 then
 		return GetEsperName(value - 0x36)
 	else
-		return GetAttackName(value - 0x87)
+		return GetAttackName(value - 0x51)
 	end
 end
 

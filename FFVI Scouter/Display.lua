@@ -93,6 +93,13 @@ function UpdateItemDisplay(itemID)
 
     SetItemDataLine("Item Name:", GetItemName(itemID))
     local itemType = GetItemType(itemID, true)
+    if itemType == 0x00 or itemType == 0x06 then -- If Consumable or Tool, Don't Display Other Info
+        return
+    end
+
+
+    -- Raw Data -----------
+    --SetMultiLines("Raw Data:", GetAllItemRawData(itemID), 16, " ")
     
     --Weapon Properties ----------------------
     if itemType == 0x01 then 
@@ -124,13 +131,22 @@ function UpdateItemDisplay(itemID)
 
         local elemWeak = GetItemWeakElements(itemID)
         if next(elemWeak) ~= nil then SetItemDataLine("Weak:", TableToString(elemWeak)) end
+
+        -- 1/2 Enc, No Enc
+
     end
     
     -- Any Equips ----------------------
     if itemType >= 0x01 and itemType <= 0x05 then
+        -- Field Effects -------------------------
+        local fieldEffects = GetItemFieldEffects(itemID)
+        if next(fieldEffects) then
+            SetMultiLines("Field Effects: ", fieldEffects, 4, ", ")
+        end
+
         -- Protections ----------------------
         local protections = GetItemStatusProtection(itemID)
-        if next(protections)  then
+        if next(protections) then
             SetMultiLines("Protects From: ", protections, 7, ", ")
         end
 
@@ -138,6 +154,12 @@ function UpdateItemDisplay(itemID)
         local statuses = GetItemStatusEffects(itemID)
         if next(statuses) then
             SetMultiLines("Statuses Granted: ", statuses, 7, ", ")
+        end
+
+        -- Special Statuses ---------------------------
+        local specStatuses = GetItemSpecialStatus(itemID)
+        if next(specStatuses) then
+            SetMultiLines("Special Statuses: ", specStatuses, 7, ", ")
         end
 
         -- Special Effects ------------------------------
@@ -155,4 +177,14 @@ function UpdateItemDisplay(itemID)
         --console.log(equips)
         SetMultiLines("Who Can Equip: ", equips, 7, "  ")
     end
+end
+
+function WindowTest()
+    local fontFamily = "Final Fantasy 3/6 Font Regular"
+
+    local testWindow = forms.newform(600, 400, "Test Window")
+    -- Colors = 0xAARRGGBB
+    forms.setDefaultBackgroundColor(testWindow, 0xFF3A3A94) -- Blue
+    forms.refresh(testWindow)
+    
 end

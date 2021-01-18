@@ -53,7 +53,7 @@ function HexToChar2(value)
 end
 
 function PadLeft(text, length, char)
-	char = " " or char
+	char = char or " "
 
 	local strLen = string.len(text)
 	if (strLen >= length) then
@@ -71,7 +71,7 @@ function PadLeft(text, length, char)
 end
 
 function PadRight(text, length, char)
-	char = " " or char
+	char = char or " "
 
 	local strLen = string.len(text)
 	if (strLen >= length) then
@@ -80,11 +80,10 @@ function PadRight(text, length, char)
 
 	local newString = text
 
-	console.log(length - strLen)
 	for i=1, length - strLen, 1 do
 		newString = newString .. char
 	end
-
+	
 	return newString
 end
 
