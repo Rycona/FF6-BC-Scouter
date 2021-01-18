@@ -58,8 +58,11 @@ TO TEST
 CHANGE LOG
 ------------------------------------------
 v0.1b - 2020-12-21
+
     - Shows item info highlighted in party menus
+    
 v0.2b - 2021-01-18:
+
     - Shows item info from chests, steals, morphs, and drops
     - Shows item info highlight in shop sell menu
     - Flickering hopefully removed
