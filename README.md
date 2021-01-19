@@ -33,7 +33,7 @@ FEATURES
 
 TO DO
 -------------------------------------------
-~~- A couple of effects are NOT displayed: 1/2 enc, No enc, and maybe some others~~
+- ~~A couple of effects are NOT displayed: 1/2 enc, No enc, and maybe some others~~
 - Decent Graphics/Layout for nicer look and increased readability
 - Option for Less "Adaptive" Layout, so Item Characteristics are always in the same part of the window
 - Option for "More Adaptive" Layout, i.e, being able to resize the window.
