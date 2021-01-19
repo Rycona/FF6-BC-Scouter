@@ -39,12 +39,14 @@ TO DO
 - Option for "More Adaptive" Layout, i.e, being able to resize the window.
 - Script for the Esper Menu, so one can have an overview of their Espers, Spells, and Learn Percentages At a glance (or at
     least a scroll)
+- Display Esper equipability for Esper Allocator seeds ('dancingmaduin' code)
 - Script for the Rage Menu to give info from the cursor without selecting, and maybe being able to sort/highlight by Elemental
     Affinities, Statuses, or Highest Multiplier
 - Access the aforementioned information while in battle
 - ~~Access item information from shop sell menu~~
 - Stat and Command overview for all party members from main manu
 - ~~Pop up with info about when picking up treasures or getting enemy drops/steals/morphs~~
+
 
 TO FIX
 ------------------------------------------
