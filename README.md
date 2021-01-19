@@ -42,13 +42,13 @@ TO DO
 - Script for the Rage Menu to give info from the cursor without selecting, and maybe being able to sort/highlight by Elemental
     Affinities, Statuses, or Highest Multiplier
 - Access the aforementioned information while in battle
-~~- Access item information from shop sell menu~~
+- ~~Access item information from shop sell menu~~
 - Stat and Command overview for all party members from main manu
-~~- Pop up with info about when picking up treasures or getting enemy drops/steals/morphs~~
+- ~~Pop up with info about when picking up treasures or getting enemy drops/steals/morphs~~
 
 TO FIX
 ------------------------------------------
-~~- The window may flicker with text during battle, and possibly elsewhere (but it shouldn't affect anything)~~
+- ~~The window may flicker with text during battle, and possibly elsewhere (but it shouldn't affect anything)~~
 
 TO TEST
 ------------------------------------------
