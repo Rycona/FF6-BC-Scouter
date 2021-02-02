@@ -37,6 +37,11 @@ FEATURES
     - Uses the Menu font from FF6 for display
     - Text Color and Approximate Menu Window Background Colors chosen by player will be used
 
+WHAT DOES X SYMBOL/TEXT MEAN?
+-------------------------------------------
+There is an accompanying image that explains custom symbols and names (Symbol and Text Descriptions.png). Sorry if the
+symbols/texts aren't super-intuitive, but I didn't want to spend a ton of time on them for this update.
+
 TO DO
 -------------------------------------------
 - ~~A couple of effects are NOT displayed: 1/2 enc, No enc, and maybe some others~~
@@ -66,7 +71,8 @@ TO TEST
 CHANGE LOG
 ------------------------------------------
 v0.3b - 2021-02-02:
-
+    
+    - Created images of game and custom symbols
     - Created TrueType font of the FF6 Menu Font
     - Uses text/BG colors chosen in the game
     - Fixed error with reading morph/steal item ID
