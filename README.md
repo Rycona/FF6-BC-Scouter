@@ -18,6 +18,7 @@ after selecting an item. Ideally, this will ease changing and viewing equipment,
 TO USE
 -----------------------------------------
 - Install the FF6Menu.ttf in the Fonts folder to your Font directory
+- Keep the Images folder inside the FF6BC Scouter folder
 - Use with the BizHawk SNES Emulator (Tested with BizHawk v2.5.2/v2.6)
 - Keep all scripts together in the same folder
 - Load only 'FF6BC Scouter.lua' from the folder
