@@ -8,35 +8,14 @@ Display = loadfile("Display.lua")
 Display()
 Item = loadfile("Item Data.lua")
 Item()
---Enemy = loadfile("Enemy Data.lua")
---Enemy()
 Spell = loadfile("Spell Data.lua")
 Spell()
 Actor = loadfile("Actor Data.lua")
 Actor()
 
 
-CreateDisplay()
 
-
--- Input ---------------------------------------
---[[
-local itemIDAvailable = {} -- array of items seen (to prevent seeing new info in shops)
-Read/Write file with ROM name to track what items have been worn/in inventory for info access (For Shop Buy)
-	]]
-local input1, input2
-
-function IsBButtonPressed()
-	if bit.check(input1, 6) then return true end
-
-	return false
-end
-
-function IsXButtonPressed()
-	if bit.check(input1, 6) then return true end
-
-	return false
-end
+CreateDrawWindow()
 
 -- Items ------------------------------------------------------------
 local curItemID = 0xFF
@@ -70,12 +49,18 @@ end
 
 -- Menus (Item, Equip, Relic, Shop) ---------------------------------
 local curMenuID
-local isMenuOrShopOpen = false
+local isMenuOpen = false
+--local isMenuOrShopOpen = false
 --local shopIndex
 local isDrawingMenuItem
+local curMenuBGDesign = bit.band(mainmemory.read_u8(0x1D4E), 0x07)
+local oldMenuBGDesign = curWindowDesign
+local curMenuBGColor = GetMenuBGColor()
+local oldMenuBGColor = curMenuBGColor
 
 function IsMenuOpen()
-	if (mainmemory.read_u8(0x59) ~= 0x00) then return true end
+	-- 0x59 is Variable for X/Y cursor looping
+	if (mainmemory.read_u8(0x59) ~= 0x00) then return true end 
 
 	return false
 end 
@@ -134,6 +119,20 @@ function IsOnShopSellMenu()
 	return false
 end
 
+function IsOnConfigMenu()
+	if curMenuID == 0x0E then return true end
+
+	return false
+end
+
+function DidMenuWindowChange()
+	if curMenuBGDesign ~= oldMenuBGDesign or curMenuBGColor ~= oldMenuBGColor then
+		return true
+	end
+
+	return false
+end
+
 -- Frame Delay (to prevent flickering of item info) -----------------------------
 local frameDelayMenu = 0
 local numFramesForDelay = 3
@@ -169,20 +168,17 @@ local curNumEnemiesAlive = 0xFF
 local oldNumEnemiesAlive = curNumEnemiesAlive
 local hasEnteredBattle = false
 local battleVariable1 = mainmemory.read_u24_le(0x2F35)
-local battleVariable2 = mainmemory.read_u24_le(0x2F38)
+--local battleVariable2 = mainmemory.read_u24_le(0x2F38)
 local battleDialogID = mainmemory.read_u24_le(0x88D7)
 
 function CheckForBattle()
-	if curNumEnemiesAlive ~= 0xFF and curNumEnemiesAlive > 0 then
+	if curNumEnemiesAlive <= 0x06 and curNumEnemiesAlive > 0 then -- !Also BG variable (seen at 0xA5)
 		hasEnteredBattle = true
 	end
 end
 
 function IsDropItemDialogLoading()
 	if battleDialogID == 0xD1F258 or battleDialogID == 0xD1F264 then
-		--console.log("Drop Item Dialog")
-		battleVariable1 = mainmemory.read_u24_le(0x2F35)
-		battleVariable2 = mainmemory.read_u24_le(0x2F38)
 		return true
 	end
 
@@ -282,11 +278,9 @@ local dialogID
 
 function IsTreasureDialogOpen()
 	if curEnableFieldDialog == 0x01 and oldEnableFieldDialog == 0x00 then
-		--console.log("DIALOG")
 		dialogID = mainmemory.read_u16_le(0xD0)
 
 		if dialogID == 0x0B85 then -- Treasure Dialog
-			--console.log("TREASURE DIALOG")
 			return true
 		end
 	end
@@ -298,7 +292,7 @@ function HasMovedOnMap()
 	local curPosX = mainmemory.read_u8(0x00AF)
 	local curPosY = mainmemory.read_u8(0x00B0)
 
-	if curPosX ~= treasurePosX or curPosY ~= treasurePosY then -- Move or Menu
+	if curPosX ~= treasurePosX or curPosY ~= treasurePosY then
 		return true
 	end
 
@@ -329,14 +323,11 @@ function StopDrawingTreasure()
 	isDrawingTreasure = false
 end
 
--- MISC -------------------------------------------------------
-local onEmuDisplay = false --true
-
-
-
+-- General Functions -----------------------------------
 function ReadRAM()
-	input1 = mainmemory.read_u8(0x04)
-	input2 = mainmemory.read_u8(0x05)
+	--input1 = mainmemory.read_u8(0x04)
+	--input2 = mainmemory.read_u8(0x05)
+	--isMenuOpening = mainmemory.read_u8(0x59) -- 0x01 when menu is opening
 	curMenuID = mainmemory.read_u8(0x26)
 	cursorPos = mainmemory.read_u8(0x4B)
 	mapIndex = mainmemory.read_u16_le(0x82)
@@ -360,8 +351,9 @@ end
 function ResetDisplay()
 	ClearDisplay()
 	curItemID = 0xFF
-	--displayedItemID = 0x00
 end
+
+SetChangedCommandNames()
 
 -- ------------- MAIN LOOP ----------------------------------------------------
 while true do
@@ -370,7 +362,6 @@ while true do
 
 	-- Player On Field Treasure --------------------------------------------
 	if IsTreasureDialogOpen() then
-		--console.log("HERE")
 		if curTreasureID ~= 0xFF then
 			DrawTreasureItem(curTreasureID)
 		else
@@ -389,11 +380,10 @@ while true do
 				if curDrawStealMorphFrameDelay == 0 then ResetDisplay() end
 			-- Check / Update Morphs ---------------------------
 			elseif isMorphingOrStealingItem then
-				
 				-- Keep up if new item fills the index
-				checkStealMorphItemID = mainmemory.read_u8(0x32F4)
+				checkStealMorphItemID = mainmemory.read_u8(0x2F35) --mainmemory.read_u8(0x32F4)
+				
 				if (checkStealMorphItemID ~= 0xFF) then
-					--oldStealMorphItemID = curStealMorphItemID
 					curStealMorphItemID = checkStealMorphItemID
 				end
 
@@ -403,46 +393,36 @@ while true do
 
 				-- After all steals/captures/Ragnaroks conclude (hopefully)
 				if curCommandIndex ~= oldCommandIndex then
-					--console.log("Steal/Morph Drawn")
 					DrawStealMorphItem(curStealMorphItemID)
 					isMorphingOrStealingItem = false
 					curStealMorphItemID = 0xFF
-					--oldStealMorphItemID = 0xFF
 					checkStealMorphItemID = 0xFF
 				end
-				--[[
-				if curStealMorphItemID == 0xFF and IfStealMorphItemIDChanges() then
-					--console.log("Steal/Morph Changed")
-					DrawStealMorphItem(oldStealMorphItemID)
-				end
-				]]
 			
-			elseif IsMorphItemDialogLoading() or IsStealItemDialogLoading() then -- Check for new Morphs/Steals		
-				--console.log("Morphin' Time!")
+			-- Check for new Morphs/Steals	
+			elseif IsMorphItemDialogLoading() or IsStealItemDialogLoading() then	
 				isMorphingOrStealingItem = true
-				curStealMorphItemID = mainmemory.read_u8(0x32F4)
+				curStealMorphItemID = mainmemory.read_u8(0x2F35) --Battle Variable 1
 				oldCommandIndex = curCommandIndex
 				curCommandIndex = mainmemory.read_u8(0x3A7A)
-				--oldStealMorphItemID = curStealMorphItemID
 			end
 
-			
-
+		-- Check for Drops
 		elseif IsAtEndOfBattle() then
 			battleDialogID = mainmemory.read_u24_le(0x88D7)
-			--gui.text(10, 10, "END OF BATTLE: " .. bizstring.hex(battleDialogID))
+			battleVariable1 = mainmemory.read_u8(0x2F35) -- Only first byte of the 3 is item
+			--battleVariable2 = mainmemory.read_u24_le(0x2F38)
+
 			if IsDropItemDialogLoading() then
-				--console.log("DRAW DROP")
-				--oldDropItemID = curDropItemID
 				curDropItemID = battleVariable1
-				--quantity = battleVariable2
 				DrawDropItem(curDropItemID)
 				
 			elseif IsGoldDialogLoading() then
 				StopDrawingDropItem()
 			end
 
-		elseif curNumEnemiesAlive == 0xFF then -- Return to Field
+		-- Returning to Field
+		elseif curNumEnemiesAlive == 0xFF then 
 			hasEnteredBattle = false
 			StopDrawingDropItem()
 		end
@@ -511,14 +491,18 @@ while true do
 
 				if curItemID ~= oldItemID then UpdateItemDisplay(curItemID) end
 			end
-		
-		
-		
-		
-		
+
 		elseif isDrawingMenuItem then -- Was Drawing Menu Item
 			ResetDisplay()
 			isDrawingMenuItem = false
+		elseif IsOnConfigMenu() then
+			oldMenuBGDesign = curMenuBGDesign
+			curMenuBGDesign = bit.band(mainmemory.read_u8(0x1D4E), 0x07)
+
+			oldMenuBGColor = curMenuBGColor
+			curMenuBGColor = GetMenuBGColor()
+
+			if DidMenuWindowChange() then ResetDisplay() end
 		end
 	end
 

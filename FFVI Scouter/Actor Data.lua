@@ -10,7 +10,6 @@ function GetActorName(actorID, rawValues)
     local rawValues = rawValues or false
     
     local address = actorCurDataAddress + (actorID * actorCurDataLength) + 0x02
-    --console.log("ADDRESS: " .. address)
     if rawValues == true then
         local charValues = {}
         for i=0, actorNameLength - 1, 1 do

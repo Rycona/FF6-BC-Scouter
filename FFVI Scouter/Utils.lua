@@ -1,4 +1,4 @@
-function HexToChar(value)
+function HexToChar(value) -- Item Names, ?
 	local char = ""
 
 	if value >= 0x7F and value <= 0x99 then -- A to Z
@@ -14,7 +14,7 @@ function HexToChar(value)
 	elseif value == 0xC4 then --Hyphen
 		char = "-"
 	elseif value >= 0xD8 and value <= 0xEA then -- Pass over Item/Spell Symbols
-		char = ""
+		char = "" --"{" .. bizstring.hex(value) .. "}"
 	elseif value >= 0xFE then --Space
 		char = " "
 	--elseif value ~= 0xFF then
@@ -42,7 +42,7 @@ function HexToChar2(value)
 	elseif value == 0xC4 then --Hyphen
 		char = "-"
 	elseif value >= 0xD8 and value <= 0xEA then -- Pass over Item/Spell Symbols
-		char = ""
+		char = "" --"{" .. bizstring.hex(value) .. "}"
 	elseif value >= 0xFE then --Space
 		char = " "
 	--elseif value ~= 0xFF then
@@ -85,22 +85,6 @@ function PadRight(text, length, char)
 	end
 	
 	return newString
-end
-
-function ByteToBinary(value)
-	if value > 255 then return "(0bERR!)" end
-
-	local string = value .. ": 0b"
-
-	for i=0, 7, 1 do 
-		if bit.check(value, i) then
-			string = string .. "1"
-		else
-			string = string .. "0"
-		end
-	end
-
-	return string
 end
 
 function TableToString(table, joiningChars)

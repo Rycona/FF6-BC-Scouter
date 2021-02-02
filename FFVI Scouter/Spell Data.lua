@@ -22,6 +22,12 @@ function GetSpellName(spellID)
 	return name
 end
 
+function GetSpellSymbolValue(spellID)
+	local address = spellNameAddress + (spellID * spellNameLength)
+
+	return memory.read_u8(address, "CARTROM")
+end
+
 function GetEsperName(esperID)
     require 'Utils'
 

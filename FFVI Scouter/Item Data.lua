@@ -32,7 +32,7 @@ function OutputCommandsList()
 	end
 end
 
-function GetCommandChangeNames()
+function SetChangedCommandNames()
 	beforeValues = {}
 	afterValues = {}
 
@@ -44,15 +44,15 @@ function GetCommandChangeNames()
 		afterValues[i + 1] = memory.read_u8(address2 + i, "CARTROM")
 	end
 
-	itemSpecialEffectsList[2][3] = GetCommandName(beforeValues[5]) .. " -> " .. GetCommandName(afterValues[5])
-	itemSpecialEffectsList[2][4] = GetCommandName(beforeValues[4]) .. " -> " .. GetCommandName(afterValues[4])
-	itemSpecialEffectsList[2][5] = GetCommandName(beforeValues[3]) .. " -> " .. GetCommandName(afterValues[3])
-	itemSpecialEffectsList[2][6] = GetCommandName(beforeValues[2]) .. " -> " .. GetCommandName(afterValues[2])
-	itemSpecialEffectsList[2][7] = GetCommandName(beforeValues[1]) .. " -> " .. GetCommandName(afterValues[1])
+	itemSpecialEffectsList[2][3] = GetCommandName(beforeValues[5]) .. " > " .. GetCommandName(afterValues[5])
+	itemSpecialEffectsList[2][4] = GetCommandName(beforeValues[4]) .. " > " .. GetCommandName(afterValues[4])
+	itemSpecialEffectsList[2][5] = GetCommandName(beforeValues[3]) .. " > " .. GetCommandName(afterValues[3])
+	itemSpecialEffectsList[2][6] = GetCommandName(beforeValues[2]) .. " > " .. GetCommandName(afterValues[2])
+	itemSpecialEffectsList[2][7] = GetCommandName(beforeValues[1]) .. " > " .. GetCommandName(afterValues[1])
 end
 
---OutputCommandsList()
-GetCommandChangeNames()
+
+
 
 
 -- ---------------------------
@@ -70,6 +70,14 @@ function GetItemName(itemID)
 	return string
 end
 
+function GetItemSymbolValue(itemID)
+	if itemID == 0xFF then return 0x00 end
+    
+	local address = itemNameAddress + (itemID * itemNameLength)
+
+	return memory.read_u8(address, "CARTROM")
+end
+
 function GetAllItemRawData(itemID)
 	local address = itemDataAddress + (itemID * itemDataLength)
 	local string = ""
@@ -84,7 +92,7 @@ end
 
 function DoesItemProc(itemID)
 	local value = GetItemDataValue(itemID, 0x13)
-	if bit.band(value, 0x04) == 0x04 then --or bit.band(value, 0x08) == 0x08
+	if bit.band(value, 0x04) == 0x04 then
 		return true
 	end
 	
@@ -102,6 +110,7 @@ function GetItemType(itemID, rawValue)
     
 	local address = itemDataAddress + (itemID * itemDataLength)
 	local value = memory.read_u8(address, "CARTROM")
+
 	-- Remove other flags
 	value = bit.band(value, 0x07)
 
@@ -127,9 +136,8 @@ function GetItemType(itemID, rawValue)
 end
 
 function GetItemDataValue(itemID, offset)
-	--console.log("ItemID: " .. itemID)
 	if itemID >= 255 then
-		console.log("ERR: GetItemDataValue() itemID >= 255 (itemID = " .. value .. ")")
+		console.log("ERR: GetItemDataValue() itemID >= 255 (itemID = " .. itemID .. ")")
 		return
 	end
 
@@ -142,16 +150,15 @@ end
 function GetItemSpellLearned(itemID, rawValues)
     local rawValues = rawValues or false
     
-	--local address = itemDataAddress + (itemID * itemDataLength) + 0x03
     local spellRate = GetItemDataValue(itemID, 0x03)
     local spellIndex = GetItemDataValue(itemID, 0x04)
 
-    if rawValues then return spellRate, spellIndex end
+    if rawValues then return spellIndex, spellRate end
 
     require 'Spell Data'
 	local spellName = GetSpellName(spellIndex)
 
-	return spellName .. " x " .. spellRate
+	return spellName .. " * " .. spellRate
 end
 
 function GetItemFieldEffects(itemID, rawValue)
@@ -160,6 +167,8 @@ function GetItemFieldEffects(itemID, rawValue)
 	local value = GetItemDataValue(itemID, 0x05)
 
 	if rawValue then return value end
+
+	value = bit.band(value, 0x23)
 
 	require 'Constants'
 	local strings = {}
@@ -173,13 +182,12 @@ function GetItemFieldEffects(itemID, rawValue)
 end
 
 function GetItemProcSpell(itemID, rawValue)
-	local rawValues = rawValues or false
+	local rawValue = rawValue or false
     
 	local value = GetItemDataValue(itemID, 0x12)
 
-	if rawValues then return value end
+	if rawValue then return value end
 
-	--console.log("Proc Value: " .. bizstring.hex(value))
 	require 'Spell Data'
 	if value < 0x36 then
 		return GetSpellName(value)
@@ -203,14 +211,18 @@ function GetItemEquipableActors(itemID, filterEnabledActors, rawValues)
 	local actorNames = {}
 	-- Low Byte
 	for i=0, 7, 1 do
-		if filter == false or IsActorEnabled(i) then
-			if bit.check(equipLowByte, i) then actorNames[#actorNames + 1] = GetActorName(i) end
+		if (filter == false or IsActorEnabled(i)) and bit.check(equipLowByte, i) then
+			actorNames[#actorNames + 1] = GetActorName(i)
+		else
+			actorNames[#actorNames + 1] = "      "
 		end
 	end
 	-- High Byte
 	for i=0, 5, 1 do
-		if filter == false or IsActorEnabled(8 + i) then
-			if bit.check(equipHighByte, i) then actorNames[#actorNames + 1] = GetActorName(8 + i) end
+		if (filter == false or IsActorEnabled(8 + i)) and bit.check(equipHighByte, i) then
+			actorNames[#actorNames + 1] = GetActorName(8 + i)
+		else
+			actorNames[#actorNames + 1] = "      "
 		end
 	end	
 	
@@ -223,7 +235,6 @@ function GetItemHalvedElements(itemID, rawValue)
 	local value = GetItemDataValue(itemID, 0x0F)
 
 	if rawValue then return value end
-	--if value == 0x00 or value == nil then return nil end
 
 	require 'Constants'
 	local elems = {}
@@ -242,7 +253,6 @@ function GetItemNullElements(itemID, rawValue)
 	local value = GetItemDataValue(itemID, 0x17)
 
 	if rawValue then return value end
-	--if value == 0x00 or value == nil then return nil end
 
 	require 'Constants'
 	local elems = {}
@@ -261,7 +271,6 @@ function GetItemAbsorbElements(itemID, rawValue)
 	local value = GetItemDataValue(itemID, 0x16)
 
 	if rawValue then return value end
-	--if value == 0x00 or value == nil then return nil end
 
 	require 'Constants'
 	local elems = {}
@@ -280,7 +289,6 @@ function GetItemWeakElements(itemID, rawValue)
 	local value = GetItemDataValue(itemID, 0x18)
 
 	if rawValue then return value end
-	--if value == 0x00 or value == nil then return nil end
 
 	require 'Constants'
 	local elems = {}
@@ -291,6 +299,10 @@ function GetItemWeakElements(itemID, rawValue)
 	end
 
 	return elems
+end
+
+function GetWeaponElements(itemID, rawValue)
+	return GetItemHalvedElements(itemID, rawValue) -- Same Address, HEHE!
 end
 
 function GetItemStatusProtection(itemID, rawValues)
@@ -308,7 +320,6 @@ function GetItemStatusProtection(itemID, rawValues)
 		for iStatus=1, 8, 1 do
 			if bit.check(values[iValue], (iStatus - 1)) then
 				strings[#strings + 1] = statusList[iValue][iStatus]
-				--console.log(strings[#strings])
 			end
 		end
 	end
@@ -349,10 +360,13 @@ function GetItemSpecialEffects(itemID, rawValues)
 	require 'Constants'
 	local strings = {}
 	for iValue=1, 5, 1 do
+		strings[iValue] = {}
 		for iStatus=1, 8, 1 do
-			if bit.check(values[iValue], (iStatus - 1)) and itemSpecialEffectsList[iValue][iStatus] ~= "" then
-				strings[#strings + 1] = itemSpecialEffectsList[iValue][iStatus]
-				--console.log(strings[#strings])
+			strings[iValue][iStatus] = ""
+			if bit.check(values[iValue], (iStatus - 1)) then
+				strings[iValue][iStatus] = itemSpecialEffectsList[iValue][iStatus]
+			else
+				strings[iValue][iStatus] = "      "
 			end
 		end
 	end
@@ -373,11 +387,29 @@ function GetItemWeaponProperties(itemID, rawValue)
 
 	require 'Constants'
 	local strings = {}
-	for iStatus=1, 8, 1 do
-		if bit.check(value, (iStatus - 1)) then
-			strings[#strings + 1] = weaponPropertiesList[iStatus]
-			--console.log(strings[#strings])
-		end
+
+	if bit.check(value, 1) then
+		strings[#strings + 1] = weaponPropertiesList[2]
+	else
+		strings[#strings + 1] = "       "
+	end
+
+	if bit.check(value, 5) then
+		strings[#strings + 1] = weaponPropertiesList[6]
+	else
+		strings[#strings + 1] = "       "
+	end
+
+	if bit.check(value, 6) then
+		strings[#strings + 1] = weaponPropertiesList[7]
+	else
+		strings[#strings + 1] = "      "
+	end
+
+	if bit.check(value, 7) then
+		strings[#strings + 1] = weaponPropertiesList[8]
+	else
+		strings[#strings + 1] = "     "
 	end
 
 	return strings
@@ -395,7 +427,6 @@ function GetItemSpecialStatus(itemID, rawValue)
 	for iStatus=1, 8, 1 do
 		if bit.check(value, (iStatus - 1)) then
 			strings[#strings + 1] = equipmentStatusList[iStatus]
-			--console.log(strings[#strings])
 		end
 	end
 
@@ -411,44 +442,12 @@ function GetWeaponSpecialAbility(itemID, rawValue)
 
 	if rawValue then return value end
 
-	local string = ""
-
 	-- Seems like 0x0F deal with defensive things?
 	-- And 0xF0 deals with offensive things?
-	offenseValue = bit.band(value, 0xF0)
-	if offenseValue == 0xF0 then -- ???
-		string = "Uses More MP"
-	elseif offenseValue == 0xE0 then
-		string = "Fragile Wpn"
-	elseif offenseValue == 0xD0 then
-		string = "Slice Kill"
-	elseif offenseValue == 0xC0 then
-		string = "Heals Target"
-	elseif offenseValue == 0xB0 then
-		string = "Wind Attack"
-	elseif offenseValue == 0xA0 then
-		string = "Valiant"
-	elseif offenseValue == 0x90 then
-		string = "Dice"
-	elseif offenseValue == 0x80 then
-		string = "Random Throw"
-	elseif offenseValue == 0x70 then
-		string = "Uses Some MP"
-	elseif offenseValue == 0x60 then
-		string = "Drain MP"
-	elseif offenseValue == 0x50 then
-		string = "Drain HP"
-	elseif offenseValue == 0x40 then
-		string = "Man Eater"
-	elseif offenseValue == 0x30 then
-		string = "X Kill"
-	elseif offenseValue == 0x20 then
-		string = "Atma"
-	elseif offenseValue == 0x10 then
-		string = "Can Steal"
-	end
+	local offenseValue = bit.rshift(value, 4)
+	if offenseValue == 0x00 then return "" end
 
-	return string
+	return weaponSpecials[offenseValue]
 end
 
 function GetItemOtherEffects(itemID, offset)
@@ -459,7 +458,6 @@ function GetItemOtherEffects(itemID, offset)
 	for iStatus=1, 8, 1 do
 		if bit.check(values[1], (iStatus - 1)) then
 			strings[#strings + 1] = "Bit " .. tostring(iStatus - 1)
-			--console.log(strings[#strings])
 		end
 	end
 
