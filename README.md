@@ -44,9 +44,6 @@ symbols/texts aren't super-intuitive, but I didn't want to spend a ton of time o
 
 TO DO
 -------------------------------------------
-- ~~A couple of effects are NOT displayed: 1/2 enc, No enc, and maybe some others~~
-- ~~Decent Graphics/Layout for nicer look and increased readability~~
-- ~~Item Characteristics are always in the same part of the window~~
 - Option for "More Adaptive" Layout, i.e, being able to resize the window. (Questionable now, given the window space)
 - Script for the Esper Menu, so one can have an overview of their Espers, Spells, and Learn Percentages At a glance (or at
     least a scroll)
@@ -54,14 +51,7 @@ TO DO
 - Script for the Rage Menu to give info from the cursor without selecting, and maybe being able to sort/highlight by Elemental
     Affinities, Statuses, or Highest Multiplier
 - Access item information while in battle
-- ~~Access item information from shop sell menu~~
 - Stat and Command overview for all party members from main manu
-- ~~Pop up with info about when picking up treasures or getting enemy drops/steals/morphs~~
-
-
-TO FIX
-------------------------------------------
-- ~~The window may flicker with text during battle, and possibly elsewhere (but it shouldn't affect anything)~~
 
 TO TEST
 ------------------------------------------
