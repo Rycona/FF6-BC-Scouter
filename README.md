@@ -1,6 +1,6 @@
 # FF6 BC Scouter
 
-Version:    0.2b  |  Date:       2021-01-18
+Version:    0.3b  |  Date:       2021-02-02
 
 FF6 BC Scouter: https://github.com/Rycona/FF6-BC-Scouter
 
@@ -17,7 +17,8 @@ after selecting an item. Ideally, this will ease changing and viewing equipment,
 
 TO USE
 -----------------------------------------
-- Use with the BizHawk SNES Emulator (Tested with BizHawk v2.5.2)
+- Install the FF6Menu.ttf in the Fonts folder to your Font directory
+- Use with the BizHawk SNES Emulator (Tested with BizHawk v2.5.2/v2.6)
 - Keep all scripts together in the same folder
 - Load only 'FF6BC Scouter.lua' from the folder
 
@@ -30,19 +31,24 @@ FEATURES
     - under cursor info on the Shop Sell screen
     - taken from chests
     - stolen, morphed, or dropped from enemies
+        - NOTE: Steals will display once next character/enemy perform an action
+    
+- Graphics
+    - Uses the Menu font from FF6 for display
+    - Text Color and Approximate Menu Window Background Colors chosen by player will be used
 
 TO DO
 -------------------------------------------
 - ~~A couple of effects are NOT displayed: 1/2 enc, No enc, and maybe some others~~
-- Decent Graphics/Layout for nicer look and increased readability
-- Option for Less "Adaptive" Layout, so Item Characteristics are always in the same part of the window
-- Option for "More Adaptive" Layout, i.e, being able to resize the window.
+- ~~Decent Graphics/Layout for nicer look and increased readability~~
+- ~~Item Characteristics are always in the same part of the window~~
+- Option for "More Adaptive" Layout, i.e, being able to resize the window. (Questionable now, given the window space)
 - Script for the Esper Menu, so one can have an overview of their Espers, Spells, and Learn Percentages At a glance (or at
     least a scroll)
 - Display Esper equipability for Esper Allocator seeds ('dancingmaduin' code)
 - Script for the Rage Menu to give info from the cursor without selecting, and maybe being able to sort/highlight by Elemental
     Affinities, Statuses, or Highest Multiplier
-- Access the aforementioned information while in battle
+- Access item information while in battle
 - ~~Access item information from shop sell menu~~
 - Stat and Command overview for all party members from main manu
 - ~~Pop up with info about when picking up treasures or getting enemy drops/steals/morphs~~
@@ -59,16 +65,23 @@ TO TEST
 
 CHANGE LOG
 ------------------------------------------
-v0.1b - 2020-12-21
+v0.3b - 2021-02-02:
 
-    - Shows item info highlighted in party menus
-    
+    - Created TrueType font of the FF6 Menu Font
+    - Uses text/BG colors chosen in the game
+    - Fixed error with reading morph/steal item ID
+    - Layout changed to display data in the same place in the window
+
 v0.2b - 2021-01-18:
 
     - Shows item info from chests, steals, morphs, and drops
     - Shows item info highlight in shop sell menu
     - Flickering hopefully removed
+    
+v0.1b - 2020-12-21
 
+    - Shows item info highlighted in party menus
+    
 TO CONTACT
 ------------------------------------------
 Post any problems or suggestions you have in the Issues section of GitHub. All constructive critcism, feedback, and salty limericks welcome.
