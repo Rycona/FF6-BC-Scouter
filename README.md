@@ -37,6 +37,11 @@ FEATURES
 - Graphics
     - Uses the Menu font from FF6 for display
     - Text Color and Approximate Menu Window Background Colors chosen by player will be used
+    
+KNOWN BUGS
+-------------------------------------------
+    - Item Info will stop displaying until Script is restarted
+    - Vanilla commands show for command changes instead of those in the seed
 
 WHAT DOES X SYMBOL/TEXT MEAN?
 -------------------------------------------
