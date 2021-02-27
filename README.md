@@ -1,6 +1,6 @@
 # FF6 BC Scouter
 
-Version:    0.3b  |  Date:       2021-02-02
+Version:    0.31b  |  Date:       2021-02-27
 
 FF6 BC Scouter: https://github.com/Rycona/FF6-BC-Scouter
 
@@ -20,8 +20,8 @@ TO USE
 - Install the FF6Menu.ttf in the Fonts folder to your Font directory
 - Keep the Images folder inside the FF6BC Scouter folder
 - Use with the BizHawk SNES Emulator (Tested with BizHawk v2.5.2/v2.6)
-- Keep all scripts together in the same folder
 - Load only 'FF6BC Scouter.lua' from the folder
+- All other scripts must be in the 'Scripts' Folder
 
 NOTE: Does not work with other emulators that support Lua scripts due to use of BizHawk-specific Lua Functions
 
@@ -30,6 +30,7 @@ FEATURES
 - View info of equipment
     - under cursor in Item, Equip, and Relic Menus
     - under cursor info on the Shop Sell screen
+    - under cursor info on the Shop Buy Screen, if at least 1 is owned
     - taken from chests
     - stolen, morphed, or dropped from enemies
         - NOTE: Steals will display once next character/enemy perform an action
@@ -37,20 +38,14 @@ FEATURES
 - Graphics
     - Uses the Menu font from FF6 for display
     - Text Color and Approximate Menu Window Background Colors chosen by player will be used
-    
-KNOWN BUGS
--------------------------------------------
-    - Item Info will stop displaying until Script is restarted
-    - Vanilla commands show for command changes instead of those in the seed
 
 WHAT DOES X SYMBOL/TEXT MEAN?
 -------------------------------------------
 There is an accompanying image that explains custom symbols and names (Symbol and Text Descriptions.png). Sorry if the
-symbols/texts aren't super-intuitive, but I didn't want to spend a ton of time on them for this update.
+symbols/texts aren't super-intuitive, but I haven't spent a ton of time on them.
 
 TO DO
 -------------------------------------------
-- Option for "More Adaptive" Layout, i.e, being able to resize the window. (Questionable now, given the window space)
 - Script for the Esper Menu, so one can have an overview of their Espers, Spells, and Learn Percentages At a glance (or at
     least a scroll)
 - Display Esper equipability for Esper Allocator seeds ('dancingmaduin' code)
@@ -61,11 +56,16 @@ TO DO
 
 TO TEST
 ------------------------------------------
-- Using W-/?- Ragnarok/Steal/Capture with multiple gets and seeing if the proper item displays
-- Seeing if there are other battle dialog IDs used when getting an item
+- Morph Item display with W+Ragnarok
 
 CHANGE LOG
 ------------------------------------------
+v0.31b - 2021-02-27:
+
+    - Bunches o' refactoring/restructuring
+    - More advanced algorithm for primary program state detection (If in menu/battle/field/world)
+    - Shows item info in shop buy menu if at least 1 of the highlighted item is currently owned
+
 v0.3b - 2021-02-02:
     
     - Created images of game and custom symbols
@@ -77,7 +77,7 @@ v0.3b - 2021-02-02:
 v0.2b - 2021-01-18:
 
     - Shows item info from chests, steals, morphs, and drops
-    - Shows item info highlight in shop sell menu
+    - Shows item info highlighted in shop sell menu
     - Flickering hopefully removed
     
 v0.1b - 2020-12-21
@@ -87,3 +87,11 @@ v0.1b - 2020-12-21
 TO CONTACT
 ------------------------------------------
 Post any problems or suggestions you have in the Issues section of GitHub. All constructive critcism, feedback, and salty limericks welcome.
+
+SPECIAL THANKS
+------------------------------------------
+- Abyssonym for creating the original Beyond Chaos
+- Beyond Chaos developers, graphic artists, music artists, and testers
+- Beyond Chaos Barracks Discord community as a whole
+- FF6Hacking.com
+- And YOU (Even if you don't use this. Thanks for reading!)
