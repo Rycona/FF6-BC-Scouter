@@ -21,7 +21,6 @@ TO USE
 - Keep the Images folder inside the FF6BC Scouter folder
 - Use with the BizHawk SNES Emulator (Tested with BizHawk v2.5.2/v2.6)
 - Load only 'FF6BC Scouter.lua' from the folder
-- All other scripts must be in the 'Scripts' Folder
 
 NOTE: Does not work with other emulators that support Lua scripts due to use of BizHawk-specific Lua Functions
 
