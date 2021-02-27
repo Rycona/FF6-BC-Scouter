@@ -4,7 +4,7 @@ Version:    0.31b  |  Date:       2021-02-27
 
 FF6 BC Scouter: https://github.com/Rycona/FF6-BC-Scouter
 
-Beyond Chaos Randomizer URL:    https://github.com/subtractionsoup/beyondchaos/releases/latest
+Beyond Chaos EX Randomizer URL:    https://github.com/subtractionsoup/beyondchaos/releases/latest
 
 Beyond Chaos Discord:           https://discord.gg/S3G3UXy
 
