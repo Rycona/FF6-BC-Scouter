@@ -92,6 +92,6 @@ SPECIAL THANKS
 ------------------------------------------
 - Abyssonym for creating the original Beyond Chaos
 - Beyond Chaos developers, graphic artists, music artists, and testers
-- Beyond Chaos Barracks Discord community as a whole
+- Beyond Chaos Barracks Discord community
 - FF6Hacking.com
 - And YOU (Even if you don't use this. Thanks for reading!)
