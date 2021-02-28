@@ -62,8 +62,10 @@ CHANGE LOG
 v0.31b - 2021-02-27:
 
     - Bunches o' refactoring/restructuring
-    - More advanced algorithm for primary program state detection (If in menu/battle/field/world)
-    - Shows item info in shop buy menu if at least 1 of the highlighted item is currently owned
+    - More advanced algorithm for primary program state detection
+        (If in menu/battle/field/world)
+    - Shows item info in shop buy menu if at least 1 of the
+        highlighted item is currently owned
 
 v0.3b - 2021-02-02:
     
