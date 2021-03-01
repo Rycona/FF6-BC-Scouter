@@ -319,6 +319,7 @@ function IsAtEndOfBattle()
 	return false
 end
 
+--[[ Removed as info is prescient
 function IsDropItemDialogLoading(battleDialogID)
 	if battleDialogID == 0xD1F258 or battleDialogID == 0xD1F264 then
 		return true
@@ -327,7 +328,7 @@ function IsDropItemDialogLoading(battleDialogID)
 	return false
 end
 
---[[ Removed as info is prescient
+
 function IsMorphItemDialogLoading(battleDialogID)
 	if battleDialogID == 0xD1F22A then return true end
 
@@ -339,13 +340,14 @@ function IsStealItemDialogLoading(battleDialogID)
 
 	return false
 end
-]]
+
 
 function IsGoldDialogLoading(battleDialogID)
 	if battleDialogID == 0xD1F2A8 then return true end
 
 	return false
 end
+]]
 
 -- Steal / Metamorphosis (removed as info is prescient)----------------------
 --[[
@@ -366,11 +368,12 @@ end
 function UpdateStealMorphDrawFrameCount()
 	curDrawStealMorphFrameDelay = curDrawStealMorphFrameDelay - 1
 end
-]]
+
 
 -- Enemy Drops -------------------------------------
 local curDropItemID -- = mainmemory.read_u8(0x2E72)
 local isDrawingDrop = false
+]]
 
 -- Treasure On Field -------------------------------------------------------
 local curTreasureID = 0xFF
@@ -444,9 +447,7 @@ while true do
 
 	if programState ~= oldProgramState then
 		--console.log("state = " .. GetProgramName(programState))
-		-- No Item Displays carrying over between programs
-		-- (Helps with clearing end of battle displays 
-		-- 		if there's no GP dialog)
+		-- No Displays carrying over between programs
 		QueueClearDisplay() --QueueItemDisplay(0xFF)
 	end
 	
@@ -547,18 +548,8 @@ while true do
 
 		-- Check for Drops At End Of Battle -------
 		elseif IsAtEndOfBattle() then
-			--console.log("Battle End")
-			battleDialogID = GetBattleDialogID()
-			battleVariable1 = GetBattleMsgVariable(0, 0x0000FF) -- Only first byte of the 3 is item
-			--battleVariable2 = mainmemory.read_u24_le(0x2F38)
-
-			if IsDropItemDialogLoading(battleDialogID) then
-				--console.log("Drop Item Dialog")
-				--curDropItemID = battleVariable1
-				QueueItemDisplay(battleVariable1) --QueueItemDisplay(curDropItemID)
-			elseif IsGoldDialogLoading(battleDialogID) then
-				QueueClearDisplay() --QueueItemDisplay(0xFF)
-			end
+			-- Steals/Morphs removed as the info is prescient v_v
+			
 		end
 	elseif programState == c_Field then
 		-- ON FIELD --------------------------------------------
