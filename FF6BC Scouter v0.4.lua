@@ -659,7 +659,7 @@ while true do
 		-- Esper Comparison Display
 		elseif displayType == c_EsperComparisonDisplay then
 			if IsNewDisplayType() or HasDisplayInfoChanged() then
-				console.log("Esper Compare Draw")
+				--console.log("Esper Compare Draw")
 				--data[1] = ActorID, data[2] = ActorEquipEsperID, data[3] = CursoredEsperID
 				displayData = queuedData
 				--console.log("displayData")
@@ -668,21 +668,21 @@ while true do
 			end
 		elseif displayType == c_EsperSpellComparisonDisplay then
 			if IsNewDisplayType() or HasDisplayInfoChanged() then
-				console.log("Esper Spell Compare Draw")
+				--console.log("Esper Spell Compare Draw")
 				--data[1] = SpellID
 				displayData = queuedData
 				DrawEsperSpellComparisonDisplay(displayData[1])
 			end
 		elseif displayType == c_EsperLevelBonusComparisonDisplay then
 			if IsNewDisplayType() or HasDisplayInfoChanged() then
-				console.log("Esper Bonus Compare Draw")
+				--console.log("Esper Bonus Compare Draw")
 				--data[1] = EsperID
 				displayData = queuedData
 				DrawEsperLevelBonusComparisonDisplay(displayData[1])
 			end
 		elseif displayType == c_ActorMagicListDisplay then
 			if IsNewDisplayType() or HasDisplayInfoChanged() then
-				console.log("Actor Magic List Draw")
+				--console.log("Actor Magic List Draw")
 				--data[1] = ActorID
 				displayData = queuedData
 				DrawActorMagicListDisplay(displayData[1])
