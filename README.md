@@ -1,6 +1,6 @@
 # FF6 BC Scouter
 
-Version:    0.31b  |  Date:       2021-02-27
+Version:    0.4b  |  Date:       2021-02-28
 
 FF6 BC Scouter: https://github.com/Rycona/FF6-BC-Scouter
 
@@ -11,30 +11,34 @@ Beyond Chaos Discord:           https://discord.gg/S3G3UXy
 TO INTRODUCE
 -------------
 This repository holds a set of Lua scripts to aid in playing Beyond Chaos, a FF6 randomizer. This code will make a separate
-window that will display highlighted equipment information while in Menus that is normally only displayed in the Item Menu 
-after selecting an item. Ideally, this will ease changing and viewing equipment, particularly for seeds with the
-'masseffect' code.
+window that will display extra contextual information about the game. This includes item info in places other than inventory (helpful
+with 'masseffect' seeds) and spell/esper info in the Skills menu. The scope of this is to ease access of already viewable information.
 
 TO USE
 -----------------------------------------
 - Install the FF6Menu.ttf in the Fonts folder to your Font directory
 - Keep the Images folder inside the FF6BC Scouter folder
 - Use with the BizHawk SNES Emulator (Tested with BizHawk v2.5.2/v2.6)
-- Load only 'FF6BC Scouter.lua' from the folder
+- Load only 'FF6BC Scouter v0.4.lua' from the folder
 
 NOTE: Does not work with other emulators that support Lua scripts due to use of BizHawk-specific Lua Functions
 
 FEATURES
 -------------------------------------------
-- View info of equipment
+- Espers/Magic (v0.4)
+    - compare equipped esper to cursored esper
+    - see all espers that teach cursored spell and their rates in esper details menu
+    - see all espers that have bonus that affects the same stat as the cursored bonus
+    
+- View info of equipment (v0.1 / v0.2)
     - under cursor in Item, Equip, and Relic Menus
     - under cursor info on the Shop Sell screen
-    - under cursor info on the Shop Buy Screen, if at least 1 is owned
+    - under cursor info on the Shop Buy Screen, if at least 1 is owned (v0.31)
     - taken from chests
     - stolen, morphed, or dropped from enemies
-        - NOTE: Steals will display once next character/enemy perform an action
+        - NOTE: Steals/Morphs will display once next character/enemy perform an action
     
-- Graphics
+- Graphics (v0.3)
     - Uses the Menu font from FF6 for display
     - Text Color and Approximate Menu Window Background Colors chosen by player will be used
 
@@ -45,8 +49,6 @@ symbols/texts aren't super-intuitive, but I haven't spent a ton of time on them.
 
 TO DO
 -------------------------------------------
-- Script for the Esper Menu, so one can have an overview of their Espers, Spells, and Learn Percentages At a glance (or at
-    least a scroll)
 - Display Esper equipability for Esper Allocator seeds ('dancingmaduin' code)
 - Script for the Rage Menu to give info from the cursor without selecting, and maybe being able to sort/highlight by Elemental
     Affinities, Statuses, or Highest Multiplier
@@ -59,6 +61,11 @@ TO TEST
 
 CHANGE LOG
 ------------------------------------------
+v0.4 - 2021-02-07:
+
+    - Added Magic List, Esper/Spell/Level Bonus Comparison Displays
+        for Skills menu and relevant submenus
+
 v0.31b - 2021-02-27:
 
     - Bunches o' refactoring/restructuring
