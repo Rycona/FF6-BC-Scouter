@@ -10,6 +10,10 @@ function GetMenuCursorIndex()
 	return mainmemory.read_u8(0x4B)
 end
 
+function GetMenuSelectedEsperID()
+    return mainmemory.read_u8(0x99)
+end
+
 function GetMenuCurActorDataPtr()
 	return mainmemory.read_u16_le(0x67)
 end

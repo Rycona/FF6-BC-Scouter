@@ -14,6 +14,7 @@ black = 0xFF000000
 darkBlue = 0xFF3A3A94 -- Default Background
 lightBlue = 0xFF00DEDE -- Description Text
 darkGray = 0xFF7B7B7B -- Unusable Item Text
+lightGray = 0xFF8B8B8B -- For Spells En Learn (custom)
 yellow = 0xFFFFEE00 -- Proc Text
 transparent = 0x00000000 
 

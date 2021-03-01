@@ -41,3 +41,39 @@ weaponSpecials = {
 }
 
 blockTypeList = { "Dg", "Sw", "Sh", "Cp" }
+
+--[[ Esper Level Up Bonuses
+    0: "HP + 10%",
+    1: "HP + 30%",
+    2: "HP + 50%",
+    3: "MP + 10%",
+    4: "MP + 30%",
+    5: "MP + 50%",
+    6: "HP + 100%",
+    7: "LV - 1",
+    8: "LV + 50%",
+    9: "STR + 1",
+    0xA: "STR + 2",
+    0xB: "SPD + 1",
+    0xC: "SPD + 2",
+    0xD: "STA + 1",
+    0xE: "STA + 2",
+    0xF: "MAG + 1",
+    0x10: "MAG + 2"}
+]]
+
+esperLevelBonusList = {
+    "HP + 10%", "HP + 30%", "HP + 50%",  "MP + 10%",
+    "MP + 30%", "MP + 50%", "HP + 100%", "LV - 1",
+    "LV + 50%", "STR + 1",  "STR + 2",   "SPD + 1",
+    "SPD + 2",  "STA + 1",  "STA + 2",   "MAG + 1",
+    "MAG + 2"
+}
+
+esperListToIndexList = {
+    0x00, 0x11, 0x03, 0x08, 0x01, 0x02, 0x17, 0x06,
+    0x05, 0x14, 0x13, 0x07, 0x16, 0x12, 0x15, 0x09,
+    0x18, 0x0A, 0x04, 0x19, 0x0E, 0x1A, 0x0B, 0x0D,
+    0x10, 0x0F, 0x0C
+}
+

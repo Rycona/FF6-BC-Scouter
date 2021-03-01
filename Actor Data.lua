@@ -26,6 +26,27 @@ function GetActorName(actorID)
     return name
 end
 
+function GetActorEsperID(actorID)
+    return mainmemory.read_u8(actorCurDataAddress + (actorID * actorCurDataLength) + 0x1E)
+end
+
+--0x00 = Not learned, 0xFF = Learned, Else = Learn %
+function GetActorSpell(actorID, spellID)
+    return mainmemory.read_u8(0x1A6E + (actorID * 0x36) + spellID)
+end
+
+-- Returns a 54 value table, 0x00 = Not learned, 0xFF = Learned, Else = Learn %
+function GetAllActorSpells(actorID) 
+    local address = 0x1A6E + (actorID * 0x36)
+
+    local values = {}
+    for i=0, 0x36, 1 do
+        values[i+1] = mainmemory.read_u8(address + i)
+    end
+    
+    return values
+end
+
 -- Meaning characters are available to add to party (I think)
 function IsActorEnabled(actorID)
     local address = actorCurDataAddress + (actorID * actorCurDataLength)
@@ -87,3 +108,4 @@ function GetCurrentPartyActorIDs()
     --console.log(values)
     return values
 end
+

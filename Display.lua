@@ -1,3 +1,53 @@
+-----------------------------------------------------
+-- Data Gathering Commands --------------------------
+function GetInfoOfEspersThatHaveSpell(spellID)
+    local esperIDs = {}
+    local spellSlots = {}
+
+    for iEsper=0, 0x1A, 1 do
+        -- check if Esper is Possessed
+        if IsEsperEnabled(iEsper) then
+            for iSpellSlot=0, 4, 1 do
+                if spellID == GetEsperSpellID(iEsper, iSpellSlot) then
+                    esperIDs[#esperIDs+1] = iEsper
+                    spellSlots[#spellSlots+1] = iSpellSlot
+                    iSpellSlot = 4 --Hopefully ends checking current esper
+                end
+            end
+        end
+    end
+
+    return esperIDs, spellSlots
+end
+
+function GetEspersWithSimilarLevelBonus(bonusID)
+    local esperIDs = {}
+    local bonusIDs = {}
+    local statString1 = string.sub(esperLevelBonusList[bonusID+1], 1, 3)
+    local statString2 = ""
+    local bonusIDToCheck
+
+    for iEsper=0, 0x1A, 1 do
+        -- check if Esper is Possessed
+        if IsEsperEnabled(iEsper) then
+            -- match by stat string
+            bonusIDToCheck = GetEsperLevelBonusID(iEsper)
+            if bonusIDToCheck ~= 0xFF then
+                statString2 = string.sub(esperLevelBonusList[bonusIDToCheck+1], 1, 3)
+                if statString1 == statString2 then
+                    esperIDs[#esperIDs+1] = iEsper
+                    bonusIDs[#bonusIDs+1] = bonusIDToCheck
+                end
+            end
+        end
+    end
+
+    return esperIDs, bonusIDs
+end
+
+-----------------------------------------------------
+-- UI Stuff to be updated ---------------------------
+--[[
 local globalsButton
 
 function DrawNavButtons()
@@ -13,9 +63,10 @@ function DrawItemListButtons()
     DrawButton(20, 356, "<", 32, 32)
     DrawButton(68, 356, ">", 32, 32)
 end
+]]
 
 --------------------------------------------------------------------
--- Item Data Draw Commands -----------------------------------------
+-- Draw Commands -----------------------------------------
 function DrawItemName(itemID, x, y, color)
     local symbolValue = GetItemSymbolValue(itemID)
     -- Draw Symbol and Offset X for Text
@@ -192,6 +243,46 @@ function DrawBlockTypeSymbols(blockType, x, y, xPadding)
     end
 end
 
+function DrawEsperInfo(esperID, actorID, x, y)
+    
+    --console.log("esperID: " .. esperID)
+    DrawText(GetEsperName(esperID), x, y, lightBlue)
+    --console.log("Lv Bonus value: " .. GetEsperLevelBonusID(esperID))
+    local levelBonusText
+    if GetEsperLevelBonusID(esperID) == 0xFF then
+        levelBonusText = "No Bonus"
+    else
+        levelBonusText = PadLeft(esperLevelBonusList[GetEsperLevelBonusID(esperID)+1], 9, " ")
+    end
+    DrawText(levelBonusText, x + 179, y)
+    local spellID, spellName, spellLearnRate
+    local spellLearnPercent, spellLearnPercentString, lineString
+    for i=0, 4, 1 do
+        spellID = GetEsperSpellID(esperID, i)
+        --console.log("spellID: " .. spellID)
+        if spellID ~= 0xFF then
+            spellName = GetSpellName(spellID)
+            --console.log("spellName: " .. spellName)
+            spellLearnRate = GetEsperSpellLearnRate(esperID, i)
+            --console.log("spellLearnRate: " .. spellLearnRate)
+            if actorID < 0x0C then -- Actor slots that can learn magic
+                spellLearnPercent = GetActorSpell(actorID, spellID)
+                if spellLearnPercent == 0xFF then spellLearnPercent = 100 end
+                spellLearnPercentString = PadLeft(tostring(spellLearnPercent), 3, " ")
+                --console.log("spellLearnPercent: " .. spellLearnPercent)
+            else
+                spellLearnPercentString = "---"
+            end
+
+            lineString = spellName .. ":  *" .. PadLeft(tostring(spellLearnRate), 2, " ") ..
+                "  " .. spellLearnPercentString .. "%"
+
+            DrawMagicSymbol(GetSpellSymbolValue(spellID) - 0xE8, x + 16, y + (24 * (i+1)))
+            DrawText(lineString, x + 30, y + (24 * (i+1)))
+        end
+    end
+end
+
 
 -----------------------------------------------------------------
 
@@ -332,8 +423,126 @@ function DrawItemDisplay(itemID)
     DrawWindow()
 end
 
+function DrawEsperComparisonDisplay(actorID, otherEsperID)
+    ClearWindow()
+
+    DrawText(GetActorName(actorID) .. " Esper:", 8, 8, lightBlue)
+
+    local actorEquippedEsperID = GetActorEsperID(actorID)
+    if actorEquippedEsperID ~= 0xFF then DrawEsperInfo(actorEquippedEsperID, actorID, 8, 36) end
+    if otherEsperID ~= 0xFF then
+        DrawText("Esper Under Cursor:", 8, 212, lightBlue)
+        DrawEsperInfo(otherEsperID, actorID, 8, 240)
+    end
+
+    DrawWindow()
+end
+
+function DrawEsperSpellComparisonDisplay(spellID)
+    ClearWindow()
+
+    -- Draw Selected Spell Name
+    DrawText("Espers who teach        :", 8, 8, lightBlue) -- Spaces for Magic name before colon
+    DrawMagicSymbol(GetSpellSymbolValue(spellID) - 0xE8, 288, 8)
+    DrawText(GetSpellName(spellID), 302, 8)
+
+    local espersWithSpell, spellSlotsOfEsper
+    espersWithSpell, spellSlotsOfEsper = GetInfoOfEspersThatHaveSpell(spellID)
+
+    local string = ""
+    if espersWithSpell ~= nil then
+        for i=1, #espersWithSpell, 1 do
+            string = GetEsperName(espersWithSpell[i]) .. "  *" ..
+                PadLeft(GetEsperSpellLearnRate(espersWithSpell[i], spellSlotsOfEsper[i]), 2, " ")
+            DrawText(string, 24, 28 + (i * 20))
+        end
+    else
+        -- No other espers with this spell
+        DrawText("No other Espers with this spell", 24, 28)
+    end
+
+    DrawWindow()
+end
+
+function DrawEsperLevelBonusComparisonDisplay(esperID)
+    ClearWindow()
+    
+    local levelBonusID = GetEsperLevelBonusID(esperID)
+    
+    if levelBonusID ~= 0xFF then
+        local statString = string.sub(esperLevelBonusList[levelBonusID+1], 1, 3)
+
+        DrawText("Espers who affect " .. statString .. ":", 8, 8, lightBlue)
+
+        local esperIDsWithSameBonus, bonusIDs = GetEspersWithSimilarLevelBonus(levelBonusID)
+        --console.log("EsperIDs:")
+        --console.log(esperIDsWithSameBonus)
+        --console.log("BonusIDs:")
+        --console.log(bonusIDs)
+        if esperIDsWithSameBonus ~= nil then
+            local string = ""
+            for i=1, #esperIDsWithSameBonus, 1 do
+                --console.log("EsperWithSameBonus i = " .. i)
+                string = GetEsperName(esperIDsWithSameBonus[i]) .. "  " ..
+                    esperLevelBonusList[bonusIDs[i]+1]
+
+                DrawText(string, 24, 8 + (i * 20))
+            end
+        end
+    end
+
+    DrawWindow()
+end
+
+function DrawActorMagicListDisplay(actorID)
+    ClearWindow()
+
+    DrawText(GetActorName(actorID) .. " Magic List:", 8, 8, lightBlue)
+
+    if actorID < 0x0C then
+        local spellLearnValues = GetAllActorSpells(actorID)
+
+        local x = 12
+        local y = 40
+        local string
+        for i=0, 0x35, 1 do
+            if spellLearnValues[i+1] > 0x00 then
+                string = GetSpellName(i)
+                DrawMagicSymbol(GetSpellSymbolValue(i) - 0xE8, x, y)
+                if spellLearnValues[i+1] == 0xFF then -- spell is learned
+                    DrawText(string, x + 14, y)
+                else -- Spell in the process of being learned 
+                    string = string .. PadLeft(tostring(spellLearnValues[i+1]), 2, " ") .. "%"
+                    DrawText(string, x + 14, y, darkGray)
+                end
+            end
+            
+            -- Shift x and y for next draw
+            if x == 12 then
+                x = 176
+            elseif x == 176 then
+                x = 340
+            elseif x == 340 then
+                x = 12
+                y = y + 20
+
+                -- more space between magic types
+                if i == 23 or i == 44 then 
+                    y = y + 16
+                end
+            end
+        end
+    else -- Actor is Gogo, Umaro, or Guest Slots
+        DrawText("This character CANNOT", 24, 36)
+        DrawText("learn magic!", 24, 56)
+    end
+
+    DrawWindow()
+end
+
 ---- STILL NEED TO UPDATE v -----------------------------------------------------------
 -- Party Info Draw Commands ----------------------------------------------
+--[[
 function DrawActorStatuses(statuses, x, y)
     for iByte=0, 3, 1 do
         for iBit=0, 7, 1 do
@@ -371,7 +580,7 @@ function GetActorBlockString(blockTypeValue)
 
     return bigString
 end
-
+]]
 --------------------------------------------------------------------------
 --[[ 
 function DrawBattleActorDisplay(partySlot, stats, statuses, elems, equipment, blockTypes)
