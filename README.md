@@ -37,8 +37,8 @@ FEATURES
     - Under cursor info on the Shop Sell screen
     - Under cursor info on the Shop Buy Screen, if at least 1 is owned (v0.31)
     - taken from chests
-    - ~~stolen, morphed, or~~ dropped from enemies
-        - Item Steals/Morphs removed as the info is prescient for leaderboard fairness (v0.41)
+    - ~~stolen, morphed, or dropped from enemies~~
+        - Item Drops/Steals/Morphs removed as the info is prescient for leaderboard fairness (v0.41)
     
 - Graphics (v0.3)
     - Uses the Menu font from FF6 for display
@@ -60,7 +60,7 @@ CHANGE LOG
 ------------------------------------------
 v0.41 - 2021-03-01
 
-    - Removed Item Steal/Morph display for Leaderboard fairness
+    - Removed Enemy Item Drops/Steal/Morph display for Leaderboard fairness
 
 v0.4 - 2021-02-07:
 
