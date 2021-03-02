@@ -65,5 +65,6 @@ function GetShopID()
 end
 
 function GetNumItemsOwnedInShop()
-    return mainmemory.read_u8(0x64) 
+	-- combine "Owned" and "Equipped" values
+    return mainmemory.read_u8(0x64) + mainmemory.read_u8(0x65) 
 end
