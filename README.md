@@ -13,8 +13,9 @@ TO INTRODUCE
 This repository holds a set of Lua scripts to aid in playing Beyond Chaos, a FF6 randomizer. This code will
 make a separate window that will display extra contextual information about the game. This includes item info
 in places other than inventory (helpful with 'masseffect' seeds) and spell/esper info in the Skills menu.
-The scope of this script is to ease access of already viewable information, and thusly, should still qualify
-the user for BC leaderboards.
+The scope of this script is to ease access of already viewable information.
+
+NOTE!: There are fixes needed in order for use of this is fairly qualify for BC Leaderboards!
 
 TO USE
 -----------------------------------------
@@ -51,6 +52,12 @@ Sorry if the symbols/texts aren't super-intuitive, but I haven't spent a ton of 
 
 TO DO
 -------------------------------------------
+- Rearrange Item Display to incorporate stats
+- Display Esper info on pickup
+- Make sure no advance info is given in battles where new characters appear (Vargas, Ultros3)
+- Stop displays during timed events
+- Show character info on Party Select menu
+- Display Blitz inputs when Blitz is selected in battle
 - Display Esper equipability for Esper Allocator seeds ('dancingmaduin' code)
 - Script for the Rage Menu to give info from the cursor without selecting, and maybe being able to
     sort/highlight by Elemental Affinities, Statuses, or Highest Multiplier
