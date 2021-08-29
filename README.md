@@ -50,7 +50,7 @@ WHAT DOES X SYMBOL/TEXT MEAN?
 There is an accompanying image that explains custom symbols and names (Symbol and Text Descriptions.png).
 Sorry if the symbols/texts aren't super-intuitive, but I haven't spent a ton of time on them.
 
-TO DO
+TO DO (Likely Not Anytime Soon™)
 -------------------------------------------
 - Rearrange Item Display to incorporate stats
 - Display Esper info on pickup
