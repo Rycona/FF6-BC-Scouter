@@ -50,7 +50,7 @@ WHAT DOES X SYMBOL/TEXT MEAN?
 There is an accompanying image that explains custom symbols and names (Symbol and Text Descriptions.png).
 Sorry if the symbols/texts aren't super-intuitive, but I haven't spent a ton of time on them.
 
-TO DO (Likely Not Anytime Soon™)
+POTENTIAL IMPROVEMENTS
 -------------------------------------------
 - Rearrange Item Display to incorporate stats
 - Display Esper info on pickup
@@ -61,7 +61,9 @@ TO DO (Likely Not Anytime Soon™)
 - Display Esper equipability for Esper Allocator seeds ('dancingmaduin' code)
 - Script for the Rage Menu to give info from the cursor without selecting, and maybe being able to
     sort/highlight by Elemental Affinities, Statuses, or Highest Multiplier
-- Stat and Command overview for all party members from main manu
+- Stat and Command overview for all party members from main menu
+
+"I do not plan to develop this any further." - Me
 
 CHANGE LOG
 ------------------------------------------
